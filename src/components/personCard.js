@@ -23,7 +23,7 @@ export default function PersonCard(props){
     }, [name, remote, address]);
 
     return(
-        <div className={`flex justify-between py-2 px-5 border-t border-t-red`}  >
+        <div className={`flex justify-between py-2 px-5 border-t border-t-red `}  >
             <div className="flex flex-col items-start w-full">
                 <input className="w-full focus:outline-none" placeholder="name" value={name} onChange={(e)=>{setName(e.target.value)}} onKeyDown={(e)=>{ if(e.key==="Enter") {props.add()}}}></input>
                 { remote && 

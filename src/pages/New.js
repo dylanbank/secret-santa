@@ -69,7 +69,7 @@ export default function New(){
             <a className='-mt-2 bg-white cursor-pointer h-4 w-6 flex justify-center items-center' onClick={AddPerson}>
                 <div className='h-full w-full bg-plus-icon bg-center bg-no-repeat' />
             </a>
-            <a onClick={Submit}>generate</a>
+            <a className="cursor-pointer" onClick={Submit}>generate</a>
 
             {
                 santas &&
