@@ -5,40 +5,51 @@ export default function New(){
         name: '',
         remote: false,
         address: ''
-      }])
-      const AddPerson = () => {
-        setPersons(prevState => [
-          ...prevState,
-          {
-            name: '',
-            remote: false,
-            address: '',
-          }
-        ])
-      }
-      const Submit = () => {
+    }])
+    const [ santas, setSantas ] = useState();
+    const AddPerson = () => {
+    setPersons(prevState => [
+        ...prevState,
+        {
+        name: '',
+        remote: false,
+        address: '',
+        }
+    ])
+    }
+    const Submit = () => {
         let final = []
-        let obj = {}
+        //let copy = []
+
         persons.map((person,index) => {
             if(person.name) {
                 final.push(person);
             }
         });
-        let clone = Array.from(Array(final.length).keys());
+        
+        console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZ')
         if(final.length>1){
-            for(let i = 0; i<final.length; i++){
-                let index;
-                do{
-                    index = clone[Math.floor(Math.random() * clone.length)]
-                }while(index===i);
-
-                obj[final[i].name] = final[index];
-                
-                clone.splice(index,1);
-            }
-            console.log(obj);
+            const random = (()=>{
+                for (let i = final.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [final[i], final[j]] = [final[j], final[i]];
+                }
+                return final;
+            })();
+            console.log(random)
+            const matches = random.map((person, index) => {
+                const nextIndex = (index + 1) % random.length;
+                return{
+                    santa: person.name,
+                    gifted: random[nextIndex].name,
+                    address: random[nextIndex].address,
+                }
+            })
+            setSantas(matches)
+        }else{
+            alert('add at least 2 people to the list')
         }
-      }
+    }
       return (
         <div className='px-8 py-32 flex flex-col items-center'>
             <h1>Secret Santa Generator</h1>
@@ -58,17 +69,16 @@ export default function New(){
             <a className='-mt-2 bg-white cursor-pointer h-4 w-6 flex justify-center items-center' onClick={AddPerson}>
                 <div className='h-full w-full bg-plus-icon bg-center bg-no-repeat' />
             </a>
-            {
-                /*persons.map((person, index) => 
-                    <div>
-                        {person.name}
-                        {person.remote}
-                        {person.address}
-                        {window.location.href}
-                    </div>
-            )*/}
             <a onClick={Submit}>generate</a>
 
+            {
+                santas &&
+                santas.map((santa, index) => 
+                    <div>
+                        <p>{`${window.location.href}?santa=${santa.santa}&gifted=${window.btoa(santa.gifted)}&address=${window.btoa(santa.address)}`}</p>
+                    </div>
+                )
+            }
         </div>
       );
 }
