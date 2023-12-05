@@ -5,7 +5,7 @@ export default function Draw(props){
         <div className="h-screen w-screen flex justify-center items-center px-10 bg-red">
             <div className="w-full md:w-1/2 md:h-1/2 p-10 bg-white">
                 <div>
-                    <h2 >Hey {props.santa}, you have gotten</h2>
+                    <h2 >Hey {props.santa}, you got</h2>
                     <h2 >{window.atob(props.gifted)}</h2>
                     <h2 >for secret santa.</h2>
                 </div>
