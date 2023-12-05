@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Caveat+Brush&family=Poppins&display=swap');
 
 body {
   margin: 0;
@@ -17,11 +18,24 @@ code {
 }
 
 h1{
-  font-size: 4rem;
+  font-size: 3rem;
+  font-family: 'Poppins', sans-serif;
 }
 h2{
-  font-size: 2rem;
+  font-size: 2.5rem;
+  font-family: 'Caveat Brush', cursive;
+}
+p{
+  font-family: 'Poppins', sans-serif;
 }
 input{
   background-color: transparent;
+  font-family: 'Poppins', sans-serif;
+}
+
+@media (max-width: 768px) {
+  
+  h1{
+    font-size: 2rem;
+  }
 }

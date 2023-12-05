@@ -54,7 +54,7 @@ export default function New(){
         <div className='px-8 py-32 flex flex-col items-center'>
             <h1>Secret Santa Generator</h1>
             
-            <div className='w-1/2'>
+            <div className='w-full md:w-1/2'>
                 <div className='flex justify-between bg-red p-5 rounded-t-lg'>
                     <p> Person </p>
                     <p> Remote? </p>
@@ -62,7 +62,7 @@ export default function New(){
                 <div className='rounded-b-lg border-2 border-red'>
                     {
                     persons.map((person, index) => 
-                        <PersonCard persons={persons} setPersons={setPersons} index={index}/>
+                        <PersonCard persons={persons} setPersons={setPersons} index={index} add={AddPerson}/>
                     )}
                 </div>
             </div>

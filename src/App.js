@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import New from './pages/New';
+import Draw from './pages/Draw';
 function App() {
+  const queryParameters = new URLSearchParams(window.location.search)
   const [ draw, setDraw]= useState();
-  
+  const [ santa, setSanta ] =useState(queryParameters.get("santa"))
+  const [ gifted, setGifted ] =useState(queryParameters.get("gifted"))
+  const [ address, setAddress ] =useState(queryParameters.get("address"))
   useEffect(()=>{
-    const queryParameters = new URLSearchParams(window.location.search)
-    const name = queryParameters.get("name")
-    const address = queryParameters.get("address")
-    if(name&&address){
+    
+    console.log(`${santa} @ ${address}`)
+    if(santa&&gifted){
       setDraw(true)
     }else{
       setDraw(false)
@@ -18,7 +21,7 @@ function App() {
   return (
     <div className="App bg-white">
       { draw ?
-        <div/>
+        <Draw santa={santa} gifted={gifted} address={address}/>
         : 
         <New />
       }
