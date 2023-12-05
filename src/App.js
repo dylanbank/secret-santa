@@ -1,23 +1,27 @@
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
-
+import New from './pages/New';
 function App() {
+  const [ draw, setDraw]= useState();
+  
+  useEffect(()=>{
+    const queryParameters = new URLSearchParams(window.location.search)
+    const name = queryParameters.get("name")
+    const address = queryParameters.get("address")
+    if(name&&address){
+      setDraw(true)
+    }else{
+      setDraw(false)
+    }
+  }, [])
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App bg-white">
+      { draw ?
+        <div/>
+        : 
+        <New />
+      }
     </div>
   );
 }
