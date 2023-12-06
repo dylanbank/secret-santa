@@ -34,8 +34,6 @@ export default function New(){
                 }
             }
         });
-        
-        console.log('ZZZZZZZZZZZZZZZZZZZZZZZZZZ')
         if(final.length>1){
             const random = (()=>{
                 for (let i = final.length - 1; i > 0; i--) {
@@ -44,7 +42,6 @@ export default function New(){
                 }
                 return final;
             })();
-            console.log(random)
             const matches = random.map((person, index) => {
                 const nextIndex = (index + 1) % random.length;
                 return{
@@ -53,7 +50,14 @@ export default function New(){
                     address: random[nextIndex].address,
                 }
             })
-            setSantas(matches)
+            const randomMatches = (()=>{
+                for (let i = matches.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [matches[i], matches[j]] = [matches[j], matches[i]];
+                }
+                return matches;
+            })();
+            setSantas(randomMatches);
         }else{
             alert('add at least 2 people to the list')
         }
@@ -89,7 +93,7 @@ export default function New(){
                 {
                     santas &&
                     santas.map((santa, index) => 
-                        <a href={`${window.location.href}?santa=${santa.santa}&gifted=${window.btoa(santa.gifted)}&address=${window.btoa(santa.address)}`}>{santa.santa}</a>
+                        <a title="Click to copy url" className="cursor-pointer" onClick={() => {navigator.clipboard.writeText(`${window.location.href}?santa=${santa.santa}&gifted=${window.btoa(santa.gifted)}&address=${window.btoa(santa.address)}`)}}>{santa.santa}</a>
                     )
                 }
                 </div>

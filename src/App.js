@@ -9,8 +9,6 @@ function App() {
   const [ gifted, setGifted ] =useState(queryParameters.get("gifted"))
   const [ address, setAddress ] =useState(queryParameters.get("address"))
   useEffect(()=>{
-    
-    console.log(`${santa} @ ${address}`)
     if(santa&&gifted){
       setDraw(true)
     }else{
