@@ -91,7 +91,8 @@ export default function New(){
                 <div className="w-full md:w-1/2 mt-10 flex flex-col items-center">
                     
                     <h2>Send To:</h2>
-                    <div className="flex flex-col w-fit">
+                    <p>{'(click to copy to clipboard)'}</p>
+                    <div className="flex flex-col w-fit mt-5">
                         {
                         santas.map((santa, index) => 
                             <a title="Click to copy url" className="cursor-pointer" onClick={() => {navigator.clipboard.writeText(`${window.location.href}?santa=${santa.santa.replace(" ","+")}&gifted=${window.btoa(santa.gifted)}&address=${window.btoa(santa.address)}`)}}>{santa.santa}</a>
