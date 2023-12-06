@@ -1,29 +1,37 @@
 import { useState } from "react";
 import PersonCard from "../components/personCard";
 export default function New(){
+    const [ remote, setRemote ] = useState(false);
     const [ persons, setPersons ] = useState([{ 
         name: '',
-        remote: false,
+        ideas: '',
         address: ''
     }])
     const [ santas, setSantas ] = useState();
+
     const AddPerson = () => {
-    setPersons(prevState => [
-        ...prevState,
-        {
-        name: '',
-        remote: false,
-        address: '',
-        }
-    ])
+        setPersons(prevState => [
+            ...prevState,
+            {
+                name: '',
+                ideas: '',
+                address: '',
+            }
+        ])
     }
     const Submit = () => {
         let final = []
         //let copy = []
 
         persons.map((person,index) => {
-            if(person.name) {
-                final.push(person);
+            if(remote){
+                if(person.address) {
+                    final.push(person);
+                }
+            }else{
+                if(person.name) {
+                    final.push(person);
+                }
             }
         });
         
@@ -53,32 +61,39 @@ export default function New(){
       return (
         <div className='px-8 py-32 flex flex-col items-center'>
             <h1>Secret Santa Generator</h1>
-            
-            <div className='w-full md:w-1/2'>
-                <div className='flex justify-between bg-red p-5 rounded-t-lg'>
-                    <p> Person </p>
-                    <p> Remote? </p>
+            <div className="flex items-center gap-10">
+                <p>if anybody partaking in secret santa will not be local when gift opening happens, check this box.</p>
+                <input type="checkbox" onChange={()=>{setRemote(!remote)}}/>
+            </div>
+            <div className='w-full md:w-1/2 mt-10'>
+                <div className='flex justify-between items-center bg-red p-5 rounded-t-lg'>
+                    <h2 className="text-white">participants </h2>
+                    <div className='h-10 w-10 bg-gift-icon bg-cover bg-no-repeat' />
+                    
                 </div>
                 <div className='rounded-b-lg border-2 border-red'>
                     {
                     persons.map((person, index) => 
-                        <PersonCard persons={persons} setPersons={setPersons} index={index} add={AddPerson}/>
+                        <PersonCard persons={persons} setPersons={setPersons} index={index} add={AddPerson} remote={remote} key={index}/>
                     )}
                 </div>
+                
             </div>
             <a className='-mt-2 bg-white cursor-pointer h-4 w-6 flex justify-center items-center' onClick={AddPerson}>
                 <div className='h-full w-full bg-plus-icon bg-center bg-no-repeat' />
             </a>
-            <a className="cursor-pointer" onClick={Submit}>generate</a>
-
-            {
-                santas &&
-                santas.map((santa, index) => 
-                    <div>
-                        <p>{`${window.location.href}?santa=${santa.santa}&gifted=${window.btoa(santa.gifted)}&address=${window.btoa(santa.address)}`}</p>
-                    </div>
-                )
-            }
+            <a className="cursor-pointer mt-10 px-6 py-3 bg-green rounded text-white" onClick={Submit}>generate</a>
+            <div className="w-full md:w-1/2 mt-10 flex flex-col items-center">
+                <h2>Send To:</h2>
+                <div className="flex flex-col w-fit">
+                {
+                    santas &&
+                    santas.map((santa, index) => 
+                        <a href={`${window.location.href}?santa=${santa.santa}&gifted=${window.btoa(santa.gifted)}&address=${window.btoa(santa.address)}`}>{santa.santa}</a>
+                    )
+                }
+                </div>
+            </div>
         </div>
       );
 }

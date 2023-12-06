@@ -13,7 +13,9 @@ module.exports = {
     },
     extend: {
       backgroundImage:{
-        "plus-icon": "url('/src/assets/icons/plus-solid.svg')"
+        "plus-icon": "url('/src/assets/icons/plus-solid.svg')",
+        "trash-icon": "url('/src/assets/icons/trash-solid.svg')",
+        "gift-icon": "url('/src/assets/icons/gift-solid.svg')"
       }
     },
   },

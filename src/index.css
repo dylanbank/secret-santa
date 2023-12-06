@@ -19,7 +19,7 @@ code {
 
 h1{
   font-size: 3rem;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Caveat Brush', sans-serif;
 }
 h2{
   font-size: 2.5rem;
@@ -32,7 +32,9 @@ input{
   background-color: transparent;
   font-family: 'Poppins', sans-serif;
 }
-
+a{
+  font-family: 'Poppins', sans-serif;
+}
 @media (max-width: 768px) {
   
   h1{
