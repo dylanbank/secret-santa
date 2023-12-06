@@ -87,17 +87,19 @@ export default function New(){
                 <div className='h-full w-full bg-plus-icon bg-center bg-no-repeat' />
             </a>
             <a className="cursor-pointer mt-10 px-6 py-3 bg-green rounded text-white" onClick={Submit}>generate</a>
-            <div className="w-full md:w-1/2 mt-10 flex flex-col items-center">
-                <h2>Send To:</h2>
-                <div className="flex flex-col w-fit">
-                {
-                    santas &&
-                    santas.map((santa, index) => 
-                        <a title="Click to copy url" className="cursor-pointer" onClick={() => {navigator.clipboard.writeText(`${window.location.href}?santa=${santa.santa.replace(" ","+")}&gifted=${window.btoa(santa.gifted)}&address=${window.btoa(santa.address)}`)}}>{santa.santa}</a>
-                    )
-                }
+            {santas &&
+                <div className="w-full md:w-1/2 mt-10 flex flex-col items-center">
+                    
+                    <h2>Send To:</h2>
+                    <div className="flex flex-col w-fit">
+                        {
+                        santas.map((santa, index) => 
+                            <a title="Click to copy url" className="cursor-pointer" onClick={() => {navigator.clipboard.writeText(`${window.location.href}?santa=${santa.santa.replace(" ","+")}&gifted=${window.btoa(santa.gifted)}&address=${window.btoa(santa.address)}`)}}>{santa.santa}</a>
+                        )}
+                    
+                    </div>
                 </div>
-            </div>
+            }
         </div>
       );
 }
