@@ -4,10 +4,10 @@ import New from './pages/New';
 import Draw from './pages/Draw';
 function App() {
   const queryParameters = new URLSearchParams(window.location.search)
-  const [ draw, setDraw]= useState();
-  const [ santa, setSanta ] =useState(queryParameters.get("santa"))
-  const [ gifted, setGifted ] =useState(queryParameters.get("gifted"))
-  const [ address, setAddress ] =useState(queryParameters.get("address"))
+  const [ draw, setDraw]= useState<boolean>(false);
+  const santa = queryParameters.get("santa") || "";
+  const gifted = queryParameters.get("gifted") || "";
+  const address = queryParameters.get("address") || "";
   useEffect(()=>{
     if(santa&&gifted){
       setDraw(true)

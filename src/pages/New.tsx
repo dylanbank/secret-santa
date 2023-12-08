@@ -1,13 +1,29 @@
 import { useState } from "react";
 import PersonCard from "../components/personCard";
+
+export interface Person{
+    name: string;
+    ideas: string;
+    address: string;
+}
+
+export interface Persons{
+    persons: Person[];
+}
+
+interface Santa{
+    santa: string;
+    gifted: string;
+    address: string;
+}
 export default function New(){
-    const [ remote, setRemote ] = useState(false);
-    const [ persons, setPersons ] = useState([{ 
+    const [ remote, setRemote ] = useState<boolean>(false);
+    const [ persons, setPersons ] = useState<Array<Person>>([{ 
         name: '',
         ideas: '',
         address: ''
     }])
-    const [ santas, setSantas ] = useState();
+    const [ santas, setSantas ] = useState<Array<Santa>>();
 
     const AddPerson = () => {
         setPersons(prevState => [
@@ -20,7 +36,7 @@ export default function New(){
         ])
     }
     const Submit = () => {
-        let final = []
+        let final : Person[] = []
         //let copy = []
 
         persons.map((person,index) => {
@@ -42,7 +58,7 @@ export default function New(){
                 }
                 return final;
             })();
-            const matches = random.map((person, index) => {
+            const matches : Santa[] = random.map((person, index) => {
                 const nextIndex = (index + 1) % random.length;
                 return{
                     santa: person.name,
@@ -50,7 +66,7 @@ export default function New(){
                     address: random[nextIndex].address,
                 }
             })
-            const randomMatches = (()=>{
+            const randomMatches : Santa[] = (()=>{
                 for (let i = matches.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
                     [matches[i], matches[j]] = [matches[j], matches[i]];
