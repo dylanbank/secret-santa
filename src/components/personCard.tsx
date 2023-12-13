@@ -9,7 +9,6 @@ interface Props {
 }
 export default function PersonCard({persons, index, remote, setPersons, add}:Props){
     const [ name, setName ] = useState('');
-    const [ ideas, setIdeas ] = useState('');
     const [ address, setAddress ] =useState('');
     const [visible, setVisible] = useState(true);
     useEffect(()=>{
@@ -19,14 +18,13 @@ export default function PersonCard({persons, index, remote, setPersons, add}:Pro
             }else{
                 return {
                     name: name,
-                    ideas: ideas,
                     address: address
                 };
             }
         });
         setPersons(newPersons)
 
-    }, [name, ideas, address]);
+    }, [name, address]);
 
     useEffect(()=>{
         setAddress('')
@@ -45,7 +43,6 @@ export default function PersonCard({persons, index, remote, setPersons, add}:Pro
             <div className={`flex justify-between items-center py-2 px-5 border-t border-t-pink `}  >
                 <div className="flex flex-col items-start w-full">
                     <input className="w-full focus:outline-none" placeholder="name" value={name} onChange={(e)=>{setName(e.target.value)}} onKeyDown={(e)=>{ if(e.key==="Enter") {add()}}}></input>
-                    <input className="focus:outline-none" placeholder="gift ideas" value={ideas} onChange={(e)=>{setIdeas(e.target.value)}} />
                     { remote && 
                         <input className="focus:outline-none" placeholder="address" value={address} onChange={(e)=>{setAddress(e.target.value)}} />
                     }
