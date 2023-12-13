@@ -78,7 +78,7 @@ export default function New(){
       return (
         <div className='px-8 py-32 flex flex-col items-center'>
             <h1>Secret Santa Generator</h1>
-            <div className="flex items-center gap-10 w-full md:w-1/2">
+            <div className="flex items-center justify-center gap-10 w-full md:w-1/2">
                 <p>if anybody partaking in secret santa will not be local when gift opening happens, check this box.</p>
                 <input type="checkbox" onChange={()=>{setRemote(!remote)}}/>
             </div>
