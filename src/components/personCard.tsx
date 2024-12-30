@@ -4,12 +4,14 @@ interface Props {
     persons: Person[];
     index: number;
     remote: boolean;
+    giftIdeas: boolean;
     setPersons: React.Dispatch<React.SetStateAction<Person[]>>;
     add(): any; 
 }
-export default function PersonCard({persons, index, remote, setPersons, add}:Props){
+export default function PersonCard({persons, index, remote, giftIdeas, setPersons, add}:Props){
     const [ name, setName ] = useState('');
     const [ address, setAddress ] =useState('');
+    const [ giftIdea, setGiftIdea ] =useState('');
     const [visible, setVisible] = useState(true);
     useEffect(()=>{
         const newPersons : Person[] = persons.map((person:Person, mapIndex:number)=>{
@@ -18,7 +20,8 @@ export default function PersonCard({persons, index, remote, setPersons, add}:Pro
             }else{
                 return {
                     name: name,
-                    address: address
+                    address: address,
+                    giftIdea: giftIdea
                 };
             }
         });
@@ -40,11 +43,11 @@ export default function PersonCard({persons, index, remote, setPersons, add}:Pro
     return(
         <>
         { visible &&
-            <div className={`flex justify-between items-center py-2 px-5 border-t border-t-pink `}  >
+            <div className={`flex justify-between items-center py-4 px-5 border-t border-t-pink `}  >
                 <div className="flex flex-col items-start w-full">
-                    <input className="w-full focus:outline-none" placeholder="name" value={name} onChange={(e)=>{setName(e.target.value)}} onKeyDown={(e)=>{ if(e.key==="Enter") {add()}}}></input>
+                    <h3><input className="w-full focus:outline-none" placeholder="name" value={name} onChange={(e)=>{setName(e.target.value)}} onKeyDown={(e)=>{ if(e.key==="Enter") {add()}}}></input></h3>
                     { remote && 
-                        <input className="focus:outline-none" placeholder="address" value={address} onChange={(e)=>{setAddress(e.target.value)}} />
+                        <h3><input className="focus:outline-none" placeholder="address" value={address} onChange={(e)=>{setAddress(e.target.value)}} /> </h3>
                     }
                 </div>
                 { index != 0 &&
