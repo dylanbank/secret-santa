@@ -8,6 +8,7 @@ function App() {
   const santa = queryParameters.get("santa") || "";
   const gifted = queryParameters.get("gifted") || "";
   const address = queryParameters.get("address") || "";
+  const ideas = queryParameters.get("ideas") || "";
   useEffect(()=>{
     if(santa&&gifted){
       setDraw(true)
@@ -19,7 +20,7 @@ function App() {
   return (
     <div className="App bg-white">
       { draw ?
-        <Draw santa={santa} gifted={gifted} address={address}/>
+        <Draw santa={santa} gifted={gifted} address={address} ideas={ideas} />
         : 
         <New />
       }

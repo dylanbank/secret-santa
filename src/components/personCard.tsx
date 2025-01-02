@@ -6,36 +6,44 @@ interface Props {
     remote: boolean;
     giftIdeas: boolean;
     setPersons: React.Dispatch<React.SetStateAction<Person[]>>;
-    add(): any; 
+    add(): any;
+    id: number;
 }
-export default function PersonCard({persons, index, remote, giftIdeas, setPersons, add}:Props){
+export default function PersonCard({persons, index, remote, giftIdeas, setPersons, add, id}:Props){
     const [ name, setName ] = useState('');
     const [ address, setAddress ] =useState('');
     const [ giftIdea, setGiftIdea ] =useState('');
     const [visible, setVisible] = useState(true);
     useEffect(()=>{
         const newPersons : Person[] = persons.map((person:Person, mapIndex:number)=>{
-            if(mapIndex != index){
+            if(mapIndex != persons.findIndex(person=> person.id==id )){
                 return person;
             }else{
                 return {
                     name: name,
                     address: address,
-                    giftIdea: giftIdea
+                    giftIdea: giftIdea,
+                    id: id
                 };
             }
         });
         setPersons(newPersons)
 
-    }, [name, address]);
+    }, [name, address, giftIdea]);
 
     useEffect(()=>{
         setAddress('')
     }, [remote]);
 
+    useEffect(()=>{
+        setGiftIdea('')
+    }, [giftIdeas]);
+
     const Delete = () => {
         let newPersons = [...persons];
-        newPersons.splice(index,1);
+        let delIndex = newPersons.findIndex(person=> person.id==id );
+        console.log('delIndex: '+delIndex)
+        newPersons.splice(delIndex,1);
         setPersons(newPersons);
         setVisible(false);
     }
@@ -48,6 +56,9 @@ export default function PersonCard({persons, index, remote, giftIdeas, setPerson
                     <h3><input className="w-full focus:outline-none" placeholder="name" value={name} onChange={(e)=>{setName(e.target.value)}} onKeyDown={(e)=>{ if(e.key==="Enter") {add()}}}></input></h3>
                     { remote && 
                         <h3><input className="focus:outline-none" placeholder="address" value={address} onChange={(e)=>{setAddress(e.target.value)}} /> </h3>
+                    }
+                    { giftIdeas &&
+                        <h3><input className="focus:outline-none" placeholder="gift ideas" value={giftIdea} onChange={(e)=>{setGiftIdea(e.target.value)}} /> </h3>
                     }
                 </div>
                 { index != 0 &&

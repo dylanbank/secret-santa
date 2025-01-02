@@ -1,10 +1,12 @@
 import { useState } from "react";
 import PersonCard from "../components/personCard";
+import { isElementAccessExpression } from "typescript";
 
 export interface Person{
     name: string;
     address: string;
     giftIdea: string;
+    id: number;
 }
 
 export interface Persons{
@@ -15,16 +17,19 @@ interface Santa{
     santa: string;
     gifted: string;
     address: string;
+    ideas: string;
 }
 export default function New(){
     const [ remote, setRemote ] = useState<boolean>(false);
     const [ giftIdeas, setGiftIdeas ] =useState<boolean>(false);
     const [ budget, setBudget ] = useState<string>('');
     const [ errorMsg, setErrorMsg ] = useState<string>('');
+    const [ persCount, setPersCount ] = useState<number>(1); // for ids
     const [ persons, setPersons ] = useState<Array<Person>>([{ 
         name: '',
         address: '',
-        giftIdea: ''
+        giftIdea: '',
+        id: 0
     }])
     const [ santas, setSantas ] = useState<Array<Santa>>();
 
@@ -34,34 +39,53 @@ export default function New(){
             {
                 name: '',
                 address: '',
-                giftIdea: ''
+                giftIdea: '',
+                id: persCount
             }
         ])
+        
+        setPersCount(prevState => ( prevState+1));
     }
     const Submit = () => {
         let final : Person[] = [];
-        let errorMsg: string = '';
-        let addressLess : string[] = [];
-        let nameLess : string[] = [];
-        
+        let error: boolean = false;
+        setErrorMsg('');
         //adds the person to the gen list if they have a name and address (address required for online opening)
-        persons.map((person,index) => {
-            if(remote){
-                if(person.address) {
-                    final.push(person);
+
+        //logic needs to be fixed for if participants are missing information
+        console.log('persons');
+        console.log(persons);
+
+        for(let i = 0; i<persons.length; i++){
+            if(remote) {
+                if(persons[i].address==''||persons[i].name==''){
+                    setErrorMsg('make sure all participants have their name and address entered.');
+                    error = true;
+                    
                 }else{
-                    addressLess.push(person.name);
+                    final.push(persons[i]);
                 }
             }else{
-                if(person.name) {
-                    final.push(person);
+                if(persons[i].name==''){
+                    setErrorMsg('make sure all participants have their name entered.');
+                    error=true;
+                    
                 }else{
-                    nameLess.push(person.address);
+                    final.push(persons[i]);
                 }
             }
-        });
-
-        if(final.length>1){
+        }
+        console.log('final');
+        console.log(final);
+        if(final.length<=1){
+            error = true;
+            if(remote){
+                setErrorMsg('add at least 2 people to the list with their name and address entered');
+            }else{
+                setErrorMsg('add at least 2 people to the list with their name entered');
+            }
+        }
+        if(!error){
             const random = (()=>{
                 for (let i = final.length - 1; i > 0; i--) {
                     const j = Math.floor(Math.random() * (i + 1));
@@ -75,6 +99,7 @@ export default function New(){
                     santa: person.name,
                     gifted: random[nextIndex].name,
                     address: random[nextIndex].address,
+                    ideas: random[nextIndex].giftIdea
                 }
             })
             const randomMatches : Santa[] = (()=>{
@@ -84,33 +109,10 @@ export default function New(){
                 }
                 return matches;
             })();
-            
-            if(addressLess.length || nameLess.length){
-                if(addressLess.length){
-                    let addrLessMsg : string = '';
-                    for(let i = 0; i < addressLess.length; i++){
-                        if(i!=addressLess.length-1){
-                            addrLessMsg += addressLess[i]+', ';
-                        }else{
-                            addrLessMsg += ' and ' + addressLess[i];
-                        }
-                    }
-                }
-                if(nameLess.length){
-                    let nameLessMsg : string = '';
-                    for(let i = 0; i < nameLess.length; i++){
-                        if(i!=nameLess.length-1){
-                            nameLessMsg += nameLess[i]+', ';
-                        }else{
-                            nameLessMsg += ' and ' + nameLess[i];
-                        }
-                    }
-                }
-            }
-            //setErrorMsg to name and addr msg's
+            console.log(randomMatches);
             setSantas(randomMatches);
         }else{
-            setErrorMsg('add at least 2 people to the list');
+            setSantas([]);
         }
     }
       return (
@@ -158,12 +160,16 @@ export default function New(){
                 <div className='rounded-b-lg border-2 border-red'>
                     {
                     persons.map((person, index) => 
-                        <PersonCard persons={persons} setPersons={setPersons} index={index} add={AddPerson} remote={remote} giftIdeas={giftIdeas} key={index}/>
+                        <PersonCard persons={persons} setPersons={setPersons} index={index} add={AddPerson} remote={remote} giftIdeas={giftIdeas} id={person.id} key={person.id}/>
                     )}
                 </div>
                 
             </div>
             <a className="cursor-pointer mt-10 px-6 py-3 bg-green rounded text-white w-32" onClick={Submit}>generate</a>
+            {errorMsg && 
+                <div className="flex flex-col gap-2">
+                    <h3 className="text-red">{errorMsg}</h3>
+                </div>}
             {santas &&
                 <div className="w-full md:w-1/2 mt-10 flex flex-col items-center">
                     
@@ -171,8 +177,8 @@ export default function New(){
                     <p>{'(click to copy to clipboard)'}</p>
                     <div className="flex flex-col w-fit mt-5">
                         {
-                        santas.map((santa, index) => 
-                            <a title="Click to copy url" className="cursor-pointer" onClick={() => {navigator.clipboard.writeText(`${window.location.href}?santa=${santa.santa.replace(" ","+")}&gifted=${window.btoa(santa.gifted)}&address=${window.btoa(santa.address)}`)}}>{santa.santa}</a>
+                        santas.map((santa) => 
+                            <a title="Click to copy url" key={santa.santa} className="cursor-pointer" onClick={() => {navigator.clipboard.writeText(`${window.location.href}?santa=${santa.santa.replace(" ","+")}&gifted=${window.btoa(santa.gifted)}&address=${window.btoa(santa.address)}&ideas=${window.btoa(santa.ideas)}`)}}>{santa.santa}</a>
                         )}
                     
                     </div>
