@@ -5,10 +5,11 @@ import Draw from './pages/Draw';
 function App() {
   const queryParameters = new URLSearchParams(window.location.search)
   const [ draw, setDraw]= useState<boolean>(false);
-  const santa = queryParameters.get("santa") || "";
-  const gifted = queryParameters.get("gifted") || "";
-  const address = queryParameters.get("address") || "";
-  const ideas = queryParameters.get("ideas") || "";
+  const budget : string = queryParameters.get("budget") || "";
+  const santa : string = queryParameters.get("santa") || "";
+  const gifted : string= queryParameters.get("gifted") || "";
+  const address : string = queryParameters.get("address") || "";
+  const ideas : string = queryParameters.get("ideas") || "";
   useEffect(()=>{
     if(santa&&gifted){
       setDraw(true)
@@ -20,7 +21,7 @@ function App() {
   return (
     <div className="App bg-white">
       { draw ?
-        <Draw santa={santa} gifted={gifted} address={address} ideas={ideas} />
+        <Draw budget={budget} santa={santa} gifted={gifted} address={address} ideas={ideas} />
         : 
         <New />
       }

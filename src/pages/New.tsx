@@ -178,7 +178,7 @@ export default function New(){
                     <div className="flex flex-col w-fit mt-5">
                         {
                         santas.map((santa) => 
-                            <a title="Click to copy url" key={santa.santa} className="cursor-pointer" onClick={() => {navigator.clipboard.writeText(`${window.location.href}?santa=${santa.santa.replace(" ","+")}&gifted=${window.btoa(santa.gifted)}&address=${window.btoa(santa.address)}&ideas=${window.btoa(santa.ideas)}`)}}>{santa.santa}</a>
+                            <a title="Click to copy url" key={santa.santa} className="cursor-pointer" onClick={() => {navigator.clipboard.writeText(`${window.location.href}?budget=${budget}&santa=${santa.santa.replace(" ","+")}&gifted=${window.btoa(santa.gifted)}&address=${window.btoa(santa.address)}&ideas=${window.btoa(santa.ideas)}`)}}>{santa.santa}</a>
                         )}
                     
                     </div>

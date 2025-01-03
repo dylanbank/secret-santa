@@ -36,6 +36,22 @@ input{
   background-color: transparent;
   font-family: 'Poppins', sans-serif;
 }
+#drawCardInvertCorner{
+  background: radial-gradient(circle 31px at top    left ,#0000 98%,#B59410  ) top    left,
+        radial-gradient(circle 31px at top    right,#0000 98%,#B59410 ) top    right,
+        radial-gradient(circle 31px at bottom left ,#0000 98%,#B59410) bottom left,
+        radial-gradient(circle 31px at bottom right,#0000 98%,#B59410) bottom right;
+  background-size:51% 51%;
+  background-repeat:no-repeat;
+}
+#drawCardInvertCorner2{
+  background: radial-gradient(circle 30px at top    left ,#0000 98%,white  ) top    left,
+        radial-gradient(circle 30px at top    right,#0000 98%, white ) top    right,
+        radial-gradient(circle 30px at bottom left ,#0000 98%,white) bottom left,
+        radial-gradient(circle 30px at bottom right,#0000 98%,white) bottom right;
+  background-size:51% 51%;
+  background-repeat:no-repeat;
+}
 a{
   font-family: 'Poppins', sans-serif;
 }
