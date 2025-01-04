@@ -19,7 +19,7 @@ function App() {
   }, [])
   
   return (
-    <div className="App bg-white">
+    <div className={`App ${draw ? 'bg-red' : 'bg-white'}`}>
       { draw ?
         <Draw budget={budget} santa={santa} gifted={gifted} address={address} ideas={ideas} />
         : 

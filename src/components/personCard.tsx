@@ -52,13 +52,13 @@ export default function PersonCard({persons, index, remote, giftIdeas, setPerson
         <>
         { visible &&
             <div className={`flex justify-between items-center py-4 px-5 border-t border-t-pink `}  >
-                <div className="flex flex-col items-start w-full">
-                    <h3><input className="w-full focus:outline-none" placeholder="name" value={name} onChange={(e)=>{setName(e.target.value)}} onKeyDown={(e)=>{ if(e.key==="Enter") {add()}}}></input></h3>
+                <div className="flex flex-col items-start">
+                    <h3><input className="w-full focus:outline-none" type="text" placeholder="name" value={name} onChange={(e)=>{setName(e.target.value)}} onKeyDown={(e)=>{ if(e.key==="Enter") {add()} }}></input></h3>
                     { remote && 
-                        <h3><input className="focus:outline-none" placeholder="address" value={address} onChange={(e)=>{setAddress(e.target.value)}} /> </h3>
+                        <h3><input className="w-full focus:outline-none" placeholder="address" value={address} onChange={(e)=>{setAddress(e.target.value)}} /> </h3>
                     }
                     { giftIdeas &&
-                        <h3><input className="focus:outline-none" placeholder="gift ideas" value={giftIdea} onChange={(e)=>{setGiftIdea(e.target.value)}} /> </h3>
+                        <h3><input className="w-full focus:outline-none" placeholder="gift ideas" value={giftIdea} onChange={(e)=>{setGiftIdea(e.target.value)}} /> </h3>
                     }
                 </div>
                 { index != 0 &&

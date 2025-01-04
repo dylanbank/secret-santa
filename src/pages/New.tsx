@@ -31,7 +31,7 @@ export default function New(){
         giftIdea: '',
         id: 0
     }])
-    const [ santas, setSantas ] = useState<Array<Santa>>();
+    const [ santas, setSantas ] = useState<Array<Santa>>([]);
 
     const AddPerson = () => {
         setPersons(prevState => [
@@ -50,6 +50,7 @@ export default function New(){
         let final : Person[] = [];
         let error: boolean = false;
         setErrorMsg('');
+        setSantas([]);
         //adds the person to the gen list if they have a name and address (address required for online opening)
 
         //logic needs to be fixed for if participants are missing information
@@ -59,7 +60,7 @@ export default function New(){
         for(let i = 0; i<persons.length; i++){
             if(remote) {
                 if(persons[i].address==''||persons[i].name==''){
-                    setErrorMsg('make sure all participants have their name and address entered.');
+                    setErrorMsg('make sure all participants have their name and address entered');
                     error = true;
                     
                 }else{
@@ -67,7 +68,7 @@ export default function New(){
                 }
             }else{
                 if(persons[i].name==''){
-                    setErrorMsg('make sure all participants have their name entered.');
+                    setErrorMsg('make sure all participants have their name entered');
                     error=true;
                     
                 }else{
@@ -84,6 +85,10 @@ export default function New(){
             }else{
                 setErrorMsg('add at least 2 people to the list with their name entered');
             }
+        }
+        if(budget==''||budget=='0'){
+            error=true;
+            setErrorMsg('enter a budget in the options above');
         }
         if(!error){
             const random = (()=>{
@@ -111,79 +116,94 @@ export default function New(){
             })();
             console.log(randomMatches);
             setSantas(randomMatches);
-        }else{
-            setSantas([]);
         }
     }
       return (
-        <div className='lg:px-96 md:px-40 px-16 py-32 flex flex-col'>
-            <h1>Secret Santa Generator</h1>
-            <div className="shadow-2xl">
-                <div className="bg-green p-5 rounded-t-lg mt-5">
-                    <h2 className="text-left text-white">options</h2>
+        <div className='xl:px-64 md:px-40 px-16 py-32 flex flex-col xl:flex-row gap-0 xl:gap-12'>
+            <div className="xl:basis-1/3">
+                <div className="xl:border-r-2 border-black">
+                    <div className="flex items-center">
+                        <div className="h-24 w-24 bg-santa bg-cover bg-no-repeat"></div>
+                    </div>
+                    <h1 className="text-left">Secret Santa <br/>Generator</h1>
+                    <div className="py-5 pr-12">
+                        <h3 className="text-left">Have you ever been asked what to get for somebody else's secret santa?</h3>
+                        <h3 className="text-left">Don't you wish there was a quicker, more consistent way to run it?</h3>
+                        <h3 className="text-left text-red"><a href='https://github.com/dylanbank/'><u>github</u></a></h3>
+                    </div>
                 </div>
-                <div className="py-4 px-5 rounded-b-lg border-2 border-green">
-                    <div className="flex items-center justify-start gap-10 pb-3">
-                        <div className="relative flex">
-                            <h3 className=" text-left">online opening:</h3>
-                            {/*if anybody participating in secret santa will not be local when gift opening happens, check this box.*/}
-                            <div className="absolute p-1 bg-gray rounded-full top-0 right-0 -mt-2 -mr-7 w-6 h-6">
-                                <p className="m-0 p-0 text-xs text-center select-none">?</p>
+            </div>
+            <div className="xl:basis-2/3">
+                <div className="shadow-2xl">
+                    <div className="bg-green p-5 rounded-t-lg mt-5 lg:mt-0">
+                        <h2 className="text-left text-white">options</h2>
+                    </div>
+                    <div className="py-4 px-5 rounded-b-lg border-2 border-green">
+                        <div className="flex items-center justify-start gap-5 w-full pb-3">
+                            <h3>budget: </h3>
+                            <span className="flex gap-1">
+                                <h3>$</h3>
+                                <h3><input className="w-12" value={budget} placeholder="50" onChange={(e)=>{setBudget(e.target.value)}}></input></h3>
+                            </span>
+                            <div className="bg-pink border-red border rounded-lg px-2">
+                                <p className="text-red text-sm ">required</p>
                             </div>
                         </div>
-                        <input className='shadow-inner' type="checkbox" onChange={()=>{setRemote(!remote)}}/>
+                        <div className="flex items-center justify-start gap-10 border-t border-t-lime py-3 ">
+                            <div className="relative flex">
+                                <h3 className=" text-left">online opening:</h3>
+                                {/*if anybody participating in secret santa will not be local when gift opening happens, check this box.*/}
+                                <div className="absolute p-1 bg-gray rounded-full top-0 right-0 -mt-2 -mr-7 w-6 h-6">
+                                    <p className="m-0 p-0 text-xs text-center select-none">?</p>
+                                </div>
+                            </div>
+                            <input className='shadow-inner' type="checkbox" onChange={()=>{setRemote(!remote)}}/>
+                        </div>
+                        <div className="flex items-center justify-start gap-5 w-full border-t border-t-lime pt-3">
+                            <h3>gift ideas:</h3>
+                            <input className='shadow-inner' type="checkbox" onChange={()=>{setGiftIdeas(!giftIdeas)}}/>
+                        </div>
+                    </div> 
+                </div>   
+                <div className='mt-10 shadow-2xl'>
+                    <div className="bg-red p-5 rounded-t-lg">
+                        <div className='flex justify-between items-center'>
+                            <h2 className="text-white">participants </h2>
+                            <div className='h-10 w-10 bg-gift-icon bg-cover bg-no-repeat' />
+                            
+                        </div>
+                        <a className='mt-2 bg-white cursor-pointer h-8 w-12 flex justify-center items-center rounded-lg' onClick={AddPerson}>
+                            <div className='h-full w-full bg-plus-icon bg-center bg-no-repeat' />
+                        </a>
                     </div>
-                    <div className="flex items-center justify-start gap-5 w-full border-t border-t-lime py-3">
-                        <h3>gift ideas:</h3>
-                        <input className='shadow-inner' type="checkbox" onChange={()=>{setGiftIdeas(!giftIdeas)}}/>
+                    <div className='rounded-b-lg border-2 border-red'>
+                        {
+                        persons.map((person, index) => 
+                            <PersonCard persons={persons} setPersons={setPersons} index={index} add={AddPerson} remote={remote} giftIdeas={giftIdeas} id={person.id} key={person.id}/>
+                        )}
                     </div>
-                    <div className="flex items-center justify-start gap-5 w-full border-t border-t-lime pt-3">
-                        <h3>budget: </h3>
-                        <span className="flex gap-1">
-                            <h3>$</h3>
-                            <h3><input className="w-12" value={budget} placeholder="50" onChange={(e)=>{setBudget(e.target.value)}}></input></h3>
-                        </span>
-                    </div>
-                </div> 
-            </div>   
-            <div className='mt-10 shadow-2xl'>
-                <div className="bg-red p-5 rounded-t-lg">
-                    <div className='flex justify-between items-center'>
-                        <h2 className="text-white">participants </h2>
-                        <div className='h-10 w-10 bg-gift-icon bg-cover bg-no-repeat' />
-                        
-                    </div>
-                    <a className='mt-2 bg-white cursor-pointer h-8 w-12 flex justify-center items-center rounded-lg' onClick={AddPerson}>
-                        <div className='h-full w-full bg-plus-icon bg-center bg-no-repeat' />
-                    </a>
-                </div>
-                <div className='rounded-b-lg border-2 border-red'>
-                    {
-                    persons.map((person, index) => 
-                        <PersonCard persons={persons} setPersons={setPersons} index={index} add={AddPerson} remote={remote} giftIdeas={giftIdeas} id={person.id} key={person.id}/>
-                    )}
-                </div>
-                
-            </div>
-            <a className="cursor-pointer mt-10 px-6 py-3 bg-green rounded text-white w-32" onClick={Submit}>generate</a>
-            {errorMsg && 
-                <div className="flex flex-col gap-2">
-                    <h3 className="text-red">{errorMsg}</h3>
-                </div>}
-            {santas &&
-                <div className="w-full md:w-1/2 mt-10 flex flex-col items-center">
                     
-                    <h2>Send To:</h2>
-                    <p>{'(click to copy to clipboard)'}</p>
+                </div>
+                <a className="cursor-pointer mt-10 px-6 py-3 bg-green rounded text-white w-32" onClick={Submit}>generate</a>
+                {errorMsg && 
+                    <div className="flex flex-col gap-2 mt-6 text-left">
+                        <h3 className="text-red">your list did not generate because you need to {errorMsg}.</h3>
+                    </div>}
+                {santas.length ?
+                <div className="mt-10">
+                    
+                    <h2 className="text-left">Send To:</h2>
+                    <h3 className="text-left">{'(click to copy to clipboard)'}</h3>
                     <div className="flex flex-col w-fit mt-5">
                         {
                         santas.map((santa) => 
-                            <a title="Click to copy url" key={santa.santa} className="cursor-pointer" onClick={() => {navigator.clipboard.writeText(`${window.location.href}?budget=${budget}&santa=${santa.santa.replace(" ","+")}&gifted=${window.btoa(santa.gifted)}&address=${window.btoa(santa.address)}&ideas=${window.btoa(santa.ideas)}`)}}>{santa.santa}</a>
+                            <a title="Click to copy url" key={santa.santa} className="cursor-pointer text-left" onClick={() => {navigator.clipboard.writeText(`${window.location.href}?budget=${budget}&santa=${santa.santa.replace(" ","+")}&gifted=${window.btoa(santa.gifted)}&address=${window.btoa(santa.address)}&ideas=${window.btoa(santa.ideas)}`)}}>{santa.santa}</a>
                         )}
                     
                     </div>
-                </div>
+                </div> : ''
             }
+            </div>
         </div>
       );
 }
