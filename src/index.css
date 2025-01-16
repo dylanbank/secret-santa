@@ -55,6 +55,12 @@ input{
 a{
   font-family: 'Poppins', sans-serif;
 }
+.tooltip {
+  @apply invisible absolute;
+}
+.has-tooltip:hover .tooltip {
+  @apply visible z-50;
+}
 @media (max-width: 768px) {
   
   /*h1{

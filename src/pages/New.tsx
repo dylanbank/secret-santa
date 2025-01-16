@@ -149,15 +149,15 @@ export default function New(){
                                 <p className="text-red text-sm ">required</p>
                             </div>
                         </div>
-                        <div className="flex items-center justify-start gap-10 border-t border-t-lime py-3 ">
-                            <div className="relative flex">
-                                <h3 className=" text-left">online opening:</h3>
-                                {/*if anybody participating in secret santa will not be local when gift opening happens, check this box.*/}
-                                <div className="absolute p-1 bg-gray rounded-full top-0 right-0 -mt-2 -mr-7 w-6 h-6">
-                                    <p className="m-0 p-0 text-xs text-center select-none">?</p>
+                        <div className="flex items-center justify-start gap-5 border-t border-t-lime py-3 ">
+                                <div className="has-tooltip group">
+                                    <span className='tooltip rounded-lg shadow-lg p-1 -mt-20 lg:-mt-8  bg-gray border border-black text-left w-64 lg:w-fit'>if anybody participating in secret santa will not be local when the gifts are opened, check this box.</span>
+                                    <h3 className="text-left font-semibold ">online opening:</h3>
                                 </div>
-                            </div>
+                                {/*if anybody participating in secret santa will not be local when gift opening happens, check this box.*/}
+                                
                             <input className='shadow-inner' type="checkbox" onChange={()=>{setRemote(!remote)}}/>
+                            
                         </div>
                         <div className="flex items-center justify-start gap-5 w-full border-t border-t-lime pt-3">
                             <h3>gift ideas:</h3>
